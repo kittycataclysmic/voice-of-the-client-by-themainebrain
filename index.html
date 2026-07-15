@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOICE OF THE CLIENT — built by the mAIne brAIn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #1C1A17;
+  --ink: #EDEAE4;
+  --accent: #9C988E;
+  --card: #242220;
+  --line: #3D3A35;
+  --amber: #C8894F;
+  --danger: #C25B4A;
+  --good: #7FA37A;
+  --radius: 10px;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+html[data-theme="light"] {
+  --bg: #F7F5F1;
+  --ink: #221F1B;
+  --accent: #756F63;
+  --card: #FFFFFF;
+  --line: #E1DBCE;
+  --amber: #B87538;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  transition: background 0.25s ease, color 0.25s ease;
+}
+h1, h2, h3, .display { font-family: var(--font-display); font-weight: 400; letter-spacing: 0.02em; margin: 0; }
+.mono { font-family: var(--font-mono); }
+button { font-family: var(--font-body); cursor: pointer; }
+::selection { background: var(--amber); color: #1C1A17; }
+
+.brand-mark { font-family: var(--font-mono); letter-spacing: 0.06em; color: var(--ink); }
+.brand-mark .ai { color: var(--amber); }
+
+header.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 24px; border-bottom: 1px solid var(--line);
+  position: sticky; top: 0; background: var(--bg); z-index: 100;
+}
+.logo-block { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.logo-block .display { font-size: 22px; }
+.logo-block .mono { font-size: 9px; color: var(--accent); letter-spacing: 0.12em; }
+.theme-toggle {
+  background: none; border: 1px solid var(--line); border-radius: 20px;
+  padding: 6px 12px; color: var(--accent); font-family: var(--font-mono); font-size: 11px;
+}
+.theme-toggle:hover { border-color: var(--amber); color: var(--amber); }
+
+main.content { max-width: 900px; margin: 0 auto; padding: 28px 24px 80px; }
+
+/* ---------- intro section ---------- */
+.hero-eyebrow { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 14px; }
+.hero-title { font-size: 56px; line-height: 1; margin-bottom: 6px; }
+.hero-phonetic { font-family: var(--font-mono); font-size: 13px; color: var(--amber); margin-bottom: 20px; }
+.hero-desc { font-size: 15px; line-height: 1.6; color: var(--ink); max-width: 640px; margin-bottom: 18px; }
+.definition-card {
+  background: var(--card); border: 1px solid var(--amber); border-radius: var(--radius);
+  padding: 18px 20px; margin-bottom: 20px;
+}
+.definition-card .term { font-family: var(--font-display); font-size: 20px; letter-spacing: 0.03em; }
+.definition-card .term .phon { font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-left: 8px; }
+.definition-card p { font-size: 13.5px; line-height: 1.6; margin: 8px 0 0; color: var(--ink); }
+.disclaimer-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px 20px; margin-bottom: 28px; font-size: 13px; line-height: 1.6; color: var(--accent);
+}
+.disclaimer-card strong { color: var(--ink); }
+
+/* ---------- progress ---------- */
+.progress-wrap { margin-bottom: 28px; }
+.progress-label { font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 8px; display: flex; justify-content: space-between; }
+.progress-bar-bg { height: 8px; border-radius: 6px; background: var(--card); border: 1px solid var(--line); overflow: hidden; }
+.progress-bar-fill { height: 100%; background: var(--amber); transition: width 0.3s ease; }
+
+/* ---------- phase tabs ---------- */
+nav.phase-tabs { display: flex; gap: 4px; margin-bottom: 24px; overflow-x: auto; border-bottom: 1px solid var(--line); }
+.phase-tab-btn {
+  background: none; border: none; padding: 12px 14px; color: var(--accent);
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.03em;
+  border-bottom: 2px solid transparent; white-space: nowrap; display: flex; align-items: center; gap: 6px;
+}
+.phase-tab-btn.active { color: var(--ink); border-bottom-color: var(--amber); }
+.phase-tab-btn:hover:not(.active) { color: var(--ink); }
+.phase-tab-count { font-size: 9.5px; color: var(--accent); background: var(--card); border-radius: 10px; padding: 1px 6px; }
+
+.phase-panel { display: none; }
+.phase-panel.active { display: block; }
+.phase-intro { font-size: 13.5px; color: var(--accent); margin-bottom: 20px; line-height: 1.6; }
+
+/* ---------- day cards ---------- */
+.day-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; }
+.day-card.complete { border-color: var(--good); }
+.day-header { display: flex; align-items: center; gap: 12px; padding: 16px 18px; cursor: pointer; }
+.day-num { font-family: var(--font-mono); font-size: 11px; color: var(--amber); flex-shrink: 0; min-width: 46px; }
+.day-title { font-family: var(--font-body); font-weight: 700; font-size: 15px; flex: 1; }
+.day-check { width: 18px; height: 18px; accent-color: var(--good); flex-shrink: 0; }
+.day-chevron { color: var(--accent); font-size: 12px; transition: transform 0.2s ease; flex-shrink: 0; }
+.day-card.open .day-chevron { transform: rotate(180deg); }
+.day-body { display: none; padding: 0 18px 20px; }
+.day-card.open .day-body { display: block; }
+.day-intro { font-size: 13.5px; line-height: 1.6; color: var(--ink); margin-bottom: 14px; }
+.day-todo { margin-bottom: 16px; }
+.day-todo-label { font-family: var(--font-mono); font-size: 10px; color: var(--accent); letter-spacing: 0.05em; margin-bottom: 8px; }
+.day-todo li { font-size: 13px; line-height: 1.6; color: var(--ink); margin-bottom: 4px; }
+.day-todo ul { margin: 0; padding-left: 18px; }
+.activity-box { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
+.activity-label { font-family: var(--font-mono); font-size: 10.5px; color: var(--amber); margin-bottom: 10px; letter-spacing: 0.03em; }
+.activity-textarea, .activity-input {
+  width: 100%; background: var(--card); border: 1px solid var(--line); border-radius: 6px;
+  padding: 10px 12px; color: var(--ink); font-family: var(--font-body); font-size: 13px; outline: none;
+  margin-bottom: 4px;
+}
+.activity-textarea:focus, .activity-input:focus { border-color: var(--amber); }
+.activity-textarea { min-height: 90px; resize: vertical; }
+.blank-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 8px; font-size: 13px; }
+.blank-row .prefix { color: var(--accent); white-space: nowrap; }
+.blank-row input { flex: 1; min-width: 160px; }
+.activity-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+.activity-table th { font-family: var(--font-mono); font-size: 9.5px; color: var(--accent); text-align: left; padding: 4px 6px; font-weight: 400; }
+.activity-table td { padding: 4px 6px; vertical-align: top; }
+.activity-table td input { width: 100%; }
+.checklist-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; font-size: 13px; }
+.checklist-item input { margin-top: 2px; accent-color: var(--amber); }
+.saved-indicator { font-family: var(--font-mono); font-size: 10px; color: var(--good); margin-top: 8px; height: 14px; opacity: 0; transition: opacity 0.3s ease; }
+.saved-indicator.show { opacity: 1; }
+
+footer.appfooter { border-top: 1px solid var(--line); padding: 20px 24px; text-align: center; font-size: 13px; color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo-block">
+    <span class="display">VOICE OF THE CLIENT</span>
+    <span class="mono">A 28-DAY PATH TO YOUR FIRST CLIENT</span>
+  </div>
+  <button class="theme-toggle mono" id="themeToggle">LIGHT MODE</button>
+</header>
+
+<main class="content">
+  <div class="hero-eyebrow" id="heroEyebrow"></div>
+  <div class="hero-title display">VOICE OF THE CLIENT</div>
+  <div class="hero-phonetic mono">[ VOICE OF THE CLIENT ] &mdash; understand what they need before you ever pitch anything</div>
+  <p class="hero-desc">A 28-day, beginner-friendly path from zero VA experience to a real first client &mdash; built for career shifters who don't know this world yet. Organized around the same five phases used to run any Lean Six Sigma improvement project: Define, Measure, Analyze, Improve, Control.</p>
+
+  <div class="definition-card">
+    <div class="term">VOICE OF THE CUSTOMER <span class="phon">[ VOC ]</span></div>
+    <p>A Lean Six Sigma term for capturing what a customer actually needs, in their own words, before designing anything around it. Applied here: understand what a client is really struggling with before you ever write a pitch, build an offer, or send a message. Most beginner mistakes trace back to skipping this step entirely.</p>
+  </div>
+
+  <div class="disclaimer-card">
+    <strong>An honest note before you start:</strong> this path will not guarantee you a client. No honest guide can promise that. What it will do is give you the structure, the proof, and the positioning to show up professionally and improve your real odds &mdash; and to know what you're actually doing at each step, instead of guessing.
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label"><span>YOUR PROGRESS</span><span id="progressText">0 / 28 days complete</span></div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+
+  <nav class="phase-tabs" id="phaseTabs"></nav>
+  <div id="phasePanels"></div>
+</main>
+
+<footer class="appfooter" id="appFooterCredit"></footer>
+
+<script>
+function renderBrandMark(el, prefix) {
+  prefix = prefix || 'built by ';
+  el.innerHTML = '<span class="brand-mark">' + prefix +
+    'the m<span class="ai">AI</span>ne br<span class="ai">AI</span>n.</span>';
+}
+renderBrandMark(document.getElementById('appFooterCredit'));
+document.getElementById('heroEyebrow').innerHTML =
+  'A FREE TOOL FROM <span class="brand-mark">the m<span class="ai">AI</span>ne br<span class="ai">AI</span>n</span>';
+
+/* ============ THEME TOGGLE ============ */
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const label = theme === 'dark' ? 'LIGHT MODE' : 'DARK MODE';
+  document.getElementById('themeToggle').textContent = label;
+  try { localStorage.setItem('voc_theme', theme); } catch (e) {}
+}
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme');
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+}
+(function initTheme() {
+  let saved = 'dark';
+  try { saved = localStorage.getItem('voc_theme') || 'dark'; } catch (e) {}
+  applyTheme(saved);
+})();
+document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+/* ============ DATA ============ */
+const DAYS = [{"day": 1, "phase": "define", "title": "What a Strategic VA Actually Is", "intro": "Most beginners think being a VA means being ready to do whatever's asked. That instinct feels helpful, but it's actually the thing that keeps beginners invisible. Clients don't hire the person who can do anything — they hire the person who clearly understands what they need. Specificity, not flexibility, is what actually gets you picked.", "doToday": ["Write down the difference between “doing tasks” and “supporting business goals.”", "List 5 ways a VA can add value beyond basic admin work.", "Notice how often “I can do anything” shows up in VA profiles you've seen — and how forgettable it is."], "activity": {"type": "blanks", "label": "Finish this sentence:", "fields": [{"prefix": "A strategic VA helps clients by", "placeholder": "e.g. catching problems before they grow"}, {"prefix": ", not just by", "placeholder": "e.g. completing a checklist"}]}}, {"day": 2, "phase": "define", "title": "Who You Want to Support", "intro": "You'll move faster once you know exactly who you're trying to help, not “businesses” in general. Research on beginner VAs is consistent on this: naming a specific type of client attracts inquiries, while staying general attracts silence.", "doToday": ["Choose a client type — industry, business size, or role.", "Think about their work style, pressure points, and common bottlenecks.", "Ask: what decisions or tasks are actually slowing this person down day to day?"], "activity": {"type": "blanks", "label": "Finish this sentence:", "fields": [{"prefix": "My ideal client is", "placeholder": "e.g. a solo online coach with 20-50 active clients"}, {"prefix": ". They usually need help with", "placeholder": "e.g. inbox and scheduling"}, {"prefix": ", and I can support them by", "placeholder": "e.g. keeping their calendar and inbox organized daily"}]}}, {"day": 3, "phase": "define", "title": "Learn Your Client's World From Outside In", "intro": "You don't need industry experience to be useful — you need to understand what the business actually does before you ever pitch it. Ten minutes of real research beats any generic pitch.", "doToday": ["Pick one real business in your target niche (not hypothetical — an actual one you could find online).", "Learn what they sell, who their customers are, and what a normal week probably looks like for them.", "Notice where the friction probably is — what would slow this business down without support?"], "activity": {"type": "textarea", "label": "Answer in a few sentences:", "placeholder": "What does this business do? Who do they serve? Where do you think they're losing time?"}}, {"day": 4, "phase": "define", "title": "Build Your Client-Thinking Checklist", "intro": "Strategic VAs think before they act. This checklist is the single habit that separates someone who executes instructions from someone a client can actually hand a problem to.", "doToday": ["Build a simple checklist you'll run before starting any task, for any client.", "Keep it short enough that you'll actually use it every time.", "Save it somewhere you'll see it daily, not just today."], "activity": {"type": "checklist", "label": "Your Client-Thinking Checklist — check these off as you build the habit:", "items": ["What is the actual goal here?", "What does success look like, specifically?", "What is the real deadline, not just the stated one?", "What could go wrong if I get this wrong?", "What should I update the client on, without being asked?"]}}, {"day": 5, "phase": "define", "title": "Set Honest Expectations Before You Start", "intro": "Here's the honest version most guides skip: beginners with a structured approach typically land a first client in two to four weeks, not overnight. On cold platforms alone, the math is rough — it can take dozens of applications to land one client. The channel most beginners overlook entirely is the one with the best odds: people who already know you. Friends, former coworkers, and past employers already trust your work ethic — that's not cheating, it's just underused.", "doToday": ["List 10 people you already know who run a business, manage a team, or know someone who does.", "Accept that this will likely take weeks, not days — and that consistent small actions beat waiting for the perfect pitch.", "Decide you will not promise anyone guaranteed results — including yourself."], "activity": {"type": "textarea", "label": "List 10 people you already know (name + how they might know someone who needs help):", "placeholder": "1. \n2. \n3. ..."}}, {"day": 6, "phase": "measure", "title": "What Clients Actually Want", "intro": "This is the actual “Voice of the Client” work: clients rarely just want a task finished. They want the friction behind that task to disappear. Inbox management isn't about reading email — it's about not missing the one message that mattered.", "doToday": ["Pick 3 common VA tasks (inbox, scheduling, data entry, whatever comes to mind).", "For each one, write the real problem behind the task, not just the task itself.", "Notice how different the real problem sounds from the task description."], "activity": {"type": "table", "label": "For each task, fill in the real problem it solves:", "columns": ["Task", "Real problem it solves", "Benefit to the client"], "rows": 3}}, {"day": 7, "phase": "measure", "title": "Translate Tasks Into Real Problems, Every Time", "intro": "Once you can see the real problem behind a task, you can talk about your work the way clients actually think about it — which is the whole point of Voice of the Client.", "doToday": ["Take the client type you defined on Day 2.", "List 5 tasks that client type probably needs done.", "For each, write what's really at stake if it doesn't get handled."], "activity": {"type": "textarea", "label": "List 5 tasks and what's really at stake for each:", "placeholder": "e.g. Calendar management — what's at stake: double-bookings that damage client trust"}}, {"day": 8, "phase": "measure", "title": "Spot Problems Before They Grow", "intro": "A strategic VA notices small problems before they become expensive ones. This is a trainable skill, not a personality trait — it just takes deliberate practice looking for patterns instead of individual tasks.", "doToday": ["Review a sample inbox, calendar, spreadsheet, or process — your own, a mock one, or a screenshot you find online.", "Look for delays, confusion, missing details, or anything that repeats.", "Write down what you'd actually fix, not just what you noticed."], "activity": {"type": "table", "label": "For each issue you find:", "columns": ["Problem", "Possible cause", "Suggested fix"], "rows": 3}}, {"day": 9, "phase": "measure", "title": "Ask Smart Questions Before You Start Any Work", "intro": "A great VA doesn't ask more questions than a task-taker — they ask better ones. The right questions upfront are what prevent redoing work later.", "doToday": ["Write 10 questions you'd ask a client before starting any project.", "Make sure they uncover goals, priorities, and preferences — not just logistics.", "Keep this list somewhere you'll reuse it for every new client."], "activity": {"type": "textarea", "label": "Your 10 questions:", "placeholder": "1. What is the main goal of this task?\n2. What does a good result look like?\n..."}}, {"day": 10, "phase": "measure", "title": "Reduce the Client's Mental Load", "intro": "The most valuable thing you can do often isn't finishing a task — it's making sure the client stops having to think about it at all.", "doToday": ["Pick one task from your list.", "Ask what you could organize, track, remind them about, or simplify around it.", "Notice how this shifts the task from “done” to “no longer a burden.”"], "activity": {"type": "textarea", "label": "How could you make this easier for the client to stop thinking about?", "placeholder": "Task: ...\nWhat I'd organize / track / remind / simplify: ..."}}, {"day": 11, "phase": "analyze", "title": "Choose Your Starting Offer", "intro": "Pick services that let you show judgment and organization, not just task completion. Beginners who choose 2-3 focused services consistently out-position beginners who try to offer everything at once.", "doToday": ["Pick 1 to 3 services — no more.", "Choose work that lets you think, organize, and support decisions, not just execute.", "Examples: inbox management, calendar coordination, CRM cleanup, research, lead tracking, client follow-up."], "activity": {"type": "blanks", "label": "Finish this sentence:", "fields": [{"prefix": "I help clients stay organized, responsive, and focused by handling", "placeholder": "e.g. inbox management and calendar coordination"}]}}, {"day": 12, "phase": "analyze", "title": "Write Your Strategic VA Statement", "intro": "One clear sentence that shows value beats a long list of skills every time.", "doToday": ["Use the formula: “I help [type of client] [achieve outcome] by [how you support them].”", "Keep it simple, specific, and professional — no jargon.", "Say it out loud. If it sounds like something anyone could say, it's still too generic."], "activity": {"type": "blanks", "label": "Your Strategic VA Statement:", "fields": [{"prefix": "I help", "placeholder": "e.g. busy online coaches"}, {"prefix": "", "placeholder": "e.g. stay organized and responsive"}, {"prefix": "by", "placeholder": "e.g. managing inboxes, schedules, and client follow-up"}]}}, {"day": 13, "phase": "analyze", "title": "Build a Portfolio That Shows Thinking, Not Just Tasks", "intro": "A portfolio that only shows screenshots proves you can operate software. A portfolio that explains your thinking proves you can be trusted with judgment — and you don't need real client work to build one. A mock project or a sample built from scratch counts.", "doToday": ["Add a short introduction and your chosen services.", "Add one sample piece of work, even a mock one.", "Write a short note explaining how that work would help a real client."], "activity": {"type": "table", "label": "For your sample piece, fill in:", "columns": ["What I did", "Why it matters to the client", "What business problem it solves"], "rows": 1}}, {"day": 14, "phase": "analyze", "title": "Write a Bio That Doesn't Sound Junior", "intro": "Your bio is often the first thing a client reads. It should sound like someone who understands business, not someone hoping to be picked.", "doToday": ["Write 3 to 5 sentences.", "Mention that you help clients stay organized, save time, and improve workflow.", "Avoid language that makes you sound like you're just hoping for any task at all."], "activity": {"type": "textarea", "label": "Draft your bio:", "placeholder": "I am an aspiring virtual assistant who helps business owners..."}}, {"day": 15, "phase": "analyze", "title": "Make Your Offer Client-Focused", "intro": "Your offer should describe the result, not the task. “I do inbox management” says nothing about why it matters. Naming the outcome does.", "doToday": ["Rewrite your offer to focus on outcomes, not tasks.", "Use words like organized, responsive, streamlined, supported, prepared.", "Compare your new version to the task-only version — notice the difference."], "activity": {"type": "blanks", "label": "Rewrite your offer:", "fields": [{"prefix": "Instead of “I do", "placeholder": "e.g. inbox management"}, {"prefix": ",” I say: “I help clients stay", "placeholder": "e.g. responsive and organized"}, {"prefix": "by", "placeholder": "e.g. managing their inbox and flagging what matters”"}]}}, {"day": 16, "phase": "analyze", "title": "Make Your Sample Work More Strategic", "intro": "Your sample work should show judgment, not just completion. The difference between the two is whether you explain why you made the choices you made.", "doToday": ["Take the sample from Day 13.", "Add what you noticed, what you changed, and why it helps the client.", "This one addition is what separates a task sample from a strategic sample."], "activity": {"type": "table", "label": "For your sample work, fill in:", "columns": ["What I noticed", "What I changed", "Why that helps the client"], "rows": 1}}, {"day": 17, "phase": "improve", "title": "Learn How Strategic VAs Communicate", "intro": "Good communication makes you more valuable before a client ever sees your work. A message that shows thinking gets a different response than one that just asks for instructions.", "doToday": ["Practice turning a passive question into a message that shows judgment.", "Notice the difference in how each version would land with a busy client.", "Reuse this pattern in every real message you send from now on."], "activity": {"type": "blanks", "label": "Turn this into a message that shows thinking:", "fields": [{"prefix": "Instead of “Do you want me to do this?” I'll say:", "placeholder": "e.g. I noticed this may affect the workflow. Would you prefer option A or option B?"}]}}, {"day": 18, "phase": "improve", "title": "Write Outreach That Doesn't Sound Desperate", "intro": "Outreach should sound like you understand the client's world, not like you're asking for a favor. This is the same discipline that makes cold messages actually get replies: lead with them, not with you.", "doToday": ["Write outreach using this structure: who you are, what problem you help solve, why it matters, next step.", "Reference something specific about the business you're reaching out to — never send it blind.", "Keep the ask small: a reply, not a commitment."], "activity": {"type": "textarea", "label": "Draft one outreach message using the 4-part structure:", "placeholder": "Who you are:\nWhat problem you help solve:\nWhy it matters:\nNext step:"}}, {"day": 19, "phase": "improve", "title": "Offer a Small Trial Based on Value", "intro": "Showing value quickly builds more trust than explaining your qualifications. A small, useful trial task does more work than a long pitch.", "doToday": ["Design one small trial task you could offer a new client — an inbox audit, a calendar cleanup, a lead list organized.", "Make sure it's small enough to complete fast, but useful enough to prove your judgment."], "activity": {"type": "blanks", "label": "Finish this sentence:", "fields": [{"prefix": "I can help you with", "placeholder": "e.g. a quick inbox audit"}, {"prefix": "first, so you can see how I work and how I think.", "placeholder": ""}]}}, {"day": 20, "phase": "improve", "title": "Practice Initiative Without Overstepping", "intro": "Taking initiative means preparing what's obviously needed next — not making decisions that were never yours to make. The skill is knowing which is which.", "doToday": ["Review a task and decide what could reasonably be prepared in advance.", "Think about what information the client will likely need next.", "Practice suggesting a next step instead of just waiting to be told one."], "activity": {"type": "blanks", "label": "Finish this sentence:", "fields": [{"prefix": "If I were supporting this client, I would also prepare", "placeholder": "e.g. a follow-up reminder for the pending invoice"}]}}, {"day": 21, "phase": "improve", "title": "Know the Difference Between Helpful and Overreaching", "intro": "Strategic VAs take initiative, but they also respect boundaries. Knowing when to suggest, when to ask, and when to act is a real skill worth practicing deliberately.", "doToday": ["Practice writing one sentence for each: suggesting a fix, asking for clarification, confirming a decision.", "Notice how differently each one should sound — confident without being pushy."], "activity": {"type": "table", "label": "Write one sentence for each situation:", "columns": ["Situation", "Your sentence"], "rows": 3, "presetLabels": ["Suggesting a fix", "Asking for clarification", "Confirming a decision"]}}, {"day": 22, "phase": "improve", "title": "Prepare Your “Why Me” Answer", "intro": "Clients want to know why they should choose you specifically. This isn't about listing skills — it's about naming the actual traits that make you dependable.", "doToday": ["Write 3 reasons you'd be a strong support partner.", "Include reliability, organization, initiative, or problem-solving — whichever are genuinely true for you."], "activity": {"type": "blanks", "label": "Finish this sentence:", "fields": [{"prefix": "You should work with me because I will not only complete tasks, but also help you", "placeholder": "e.g. stay ahead of deadlines and catch problems early"}]}}, {"day": 23, "phase": "control", "title": "Build a Simple Update System", "intro": "Clients trust VAs who keep them informed without being asked. A short, predictable update does more for trust than any amount of extra work.", "doToday": ["Build a simple template for status updates.", "Include what was done, what's next, and what (if anything) needs the client's attention."], "activity": {"type": "blanks", "label": "Draft a sample update:", "fields": [{"prefix": "What I completed:", "placeholder": "..."}, {"prefix": "What I'm working on next:", "placeholder": "..."}, {"prefix": "What I need from you, if anything:", "placeholder": "..."}]}}, {"day": 24, "phase": "control", "title": "Practice Decision-Making", "intro": "Strategic VAs don't wait for permission on every small, obvious decision. Knowing when a call is safe to make yourself is a skill you build by practicing it deliberately.", "doToday": ["Think of a small decision you'd normally ask permission for.", "Ask: what's the safest next step, what would save time, what would reduce confusion.", "Decide what you'd actually do — and why."], "activity": {"type": "textarea", "label": "Describe a small decision and your reasoning:", "placeholder": "The situation: ...\nWhat I'd decide: ...\nWhy: ..."}}, {"day": 25, "phase": "control", "title": "Build Your Reliability Promise", "intro": "Reliability is one of the fastest ways to become indispensable — and one of the easiest things to promise and then quietly fail to deliver. Write it down so it's a standard, not just an intention.", "doToday": ["Practice meeting deadlines, replying on time, and keeping your word — starting now, on small things.", "Write your reliability promise as a standard you'll actually hold yourself to."], "activity": {"type": "blanks", "label": "Your reliability promise:", "fields": [{"prefix": "I will communicate clearly, meet deadlines, and", "placeholder": "e.g. flag anything at risk before it becomes a problem"}]}}, {"day": 26, "phase": "control", "title": "Build an Onboarding Mindset", "intro": "A strong VA starts every client relationship well. Good onboarding isn't paperwork — it's the first proof that you're organized.", "doToday": ["Create a simple onboarding checklist.", "Include goals, preferences, tools, access details, communication style, and deadlines.", "Think about how to make a new client feel supported from day one, not just processed."], "activity": {"type": "checklist", "label": "Your onboarding checklist — check off what you've built:", "items": ["A way to capture the client's goals up front", "A way to capture their communication preferences", "A list of tools/access I'll need from them", "A note on deadlines and how they like to be reminded"]}}, {"day": 27, "phase": "control", "title": "Practice Being Proactive", "intro": "Proactive VAs are more valuable than reactive ones — not because they do more, but because the client has to think about less.", "doToday": ["Think one step ahead on a real or sample task.", "Prepare the next file, reminder, list, or update before it's asked for.", "Offer one helpful suggestion, framed as an offer, not a demand."], "activity": {"type": "textarea", "label": "What's one thing you could prepare in advance, right now, for a client?", "placeholder": "..."}}, {"day": 28, "phase": "control", "title": "Review, Reflect, and Plan What's Next", "intro": "This is the close of the 28 days — not because the work is finished, but because this is where you decide what to sustain. Review your bio, offer, portfolio, and messages one more time. Do they show thinking and value, or do they still sound like a task-taker's? Fix what's left before you call this done.", "doToday": ["Review everything you've built — bio, offer, portfolio, sample work, outreach draft.", "Ask honestly: does this show a strategic partner, or still a task-taker?", "Write down what you learned and which skill you'll keep improving next."], "activity": {"type": "textarea", "label": "What did you learn, and what will you keep improving?", "placeholder": "What I learned: ...\nWhat I'll keep improving: ..."}}];
+const PHASES = [
+  { key: 'define', label: 'DEFINE', intro: 'Get clear on the role, your ideal client, and what you\'re actually walking into.' },
+  { key: 'measure', label: 'MEASURE', intro: 'Learn to see the real problem behind every task \u2014 this is Voice of the Client in practice.' },
+  { key: 'analyze', label: 'ANALYZE', intro: 'Turn what you now understand into an offer, a bio, and proof of your thinking.' },
+  { key: 'improve', label: 'IMPROVE', intro: 'Build the outreach and trial-work skills that actually get replies.' },
+  { key: 'control', label: 'CONTROL', intro: 'Build the reliability and follow-through habits that keep a client after you land them.' },
+];
+
+/* ============ PERSISTENCE ============ */
+function getProgress() {
+  try { return JSON.parse(localStorage.getItem('voc_progress') || '{}'); } catch (e) { return {}; }
+}
+function saveProgress(p) {
+  try { localStorage.setItem('voc_progress', JSON.stringify(p)); } catch (e) {}
+}
+function getAnswers() {
+  try { return JSON.parse(localStorage.getItem('voc_answers') || '{}'); } catch (e) { return {}; }
+}
+function saveAnswers(a) {
+  try { localStorage.setItem('voc_answers', JSON.stringify(a)); } catch (e) {}
+}
+
+let progress = getProgress();
+let answers = getAnswers();
+
+function updateProgressBar() {
+  const completeCount = Object.values(progress).filter(Boolean).length;
+  document.getElementById('progressText').textContent = completeCount + ' / ' + DAYS.length + ' days complete';
+  document.getElementById('progressFill').style.width = Math.round((completeCount / DAYS.length) * 100) + '%';
+}
+
+/* ============ ACTIVITY RENDERERS ============ */
+function saveIndicator(container) {
+  const el = container.querySelector('.saved-indicator');
+  if (!el) return;
+  el.textContent = 'Saved';
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 1200);
+}
+
+function renderActivity(day) {
+  const a = day.activity;
+  const key = 'day' + day.day;
+  const saved = answers[key] || {};
+  let html = '<div class="activity-box"><div class="activity-label">' + a.label + '</div>';
+
+  if (a.type === 'textarea') {
+    html += '<textarea class="activity-textarea" data-key="' + key + '" data-field="text" placeholder="' + (a.placeholder || '') + '">' + (saved.text || '') + '</textarea>';
+  } else if (a.type === 'blanks') {
+    a.fields.forEach((f, i) => {
+      const val = (saved.fields && saved.fields[i]) || '';
+      html += '<div class="blank-row">' + (f.prefix ? '<span class="prefix">' + f.prefix + '</span>' : '') +
+        '<input class="activity-input" data-key="' + key + '" data-field="fields" data-index="' + i + '" placeholder="' + (f.placeholder || '') + '" value="' + val.replace(/"/g, '&quot;') + '"></div>';
+    });
+  } else if (a.type === 'table') {
+    html += '<table class="activity-table"><thead><tr>' + a.columns.map(c => '<th>' + c + '</th>').join('') + '</tr></thead><tbody>';
+    for (let r = 0; r < a.rows; r++) {
+      html += '<tr>';
+      const rowLabel = a.presetLabels ? a.presetLabels[r] : null;
+      a.columns.forEach((c, ci) => {
+        if (ci === 0 && rowLabel) {
+          html += '<td style="font-size:12.5px;color:var(--accent);padding-top:8px;">' + rowLabel + '</td>';
+        } else {
+          const savedVal = (saved.table && saved.table[r] && saved.table[r][ci]) || '';
+          html += '<td><input class="activity-input" data-key="' + key + '" data-field="table" data-row="' + r + '" data-col="' + ci + '" value="' + savedVal.replace(/"/g, '&quot;') + '"></td>';
+        }
+      });
+      html += '</tr>';
+    }
+    html += '</tbody></table>';
+  } else if (a.type === 'checklist') {
+    a.items.forEach((item, i) => {
+      const checked = (saved.checklist && saved.checklist[i]) ? 'checked' : '';
+      html += '<div class="checklist-item"><input type="checkbox" data-key="' + key + '" data-field="checklist" data-index="' + i + '" ' + checked + '><label>' + item + '</label></div>';
+    });
+  }
+  html += '<div class="saved-indicator"></div></div>';
+  return html;
+}
+
+function wireActivityInputs(container, day) {
+  const key = 'day' + day.day;
+  container.querySelectorAll('[data-field]').forEach(el => {
+    const evt = (el.tagName === 'INPUT' && el.type === 'checkbox') ? 'change' : 'input';
+    el.addEventListener(evt, function() {
+      if (!answers[key]) answers[key] = {};
+      const field = this.dataset.field;
+      if (field === 'text') {
+        answers[key].text = this.value;
+      } else if (field === 'fields') {
+        if (!answers[key].fields) answers[key].fields = [];
+        answers[key].fields[Number(this.dataset.index)] = this.value;
+      } else if (field === 'table') {
+        if (!answers[key].table) answers[key].table = [];
+        const row = Number(this.dataset.row), col = Number(this.dataset.col);
+        if (!answers[key].table[row]) answers[key].table[row] = [];
+        answers[key].table[row][col] = this.value;
+      } else if (field === 'checklist') {
+        if (!answers[key].checklist) answers[key].checklist = [];
+        answers[key].checklist[Number(this.dataset.index)] = this.checked;
+      }
+      saveAnswers(answers);
+      saveIndicator(container.closest('.day-body'));
+    });
+  });
+}
+
+/* ============ DAY CARDS ============ */
+function dayCardHTML(day) {
+  const isComplete = !!progress['day' + day.day];
+  return `<div class="day-card ${isComplete ? 'complete' : ''}" id="daycard-${day.day}">
+    <div class="day-header" onclick="toggleDay(${day.day})">
+      <span class="day-num mono">DAY ${day.day}</span>
+      <span class="day-title">${day.title}</span>
+      <input type="checkbox" class="day-check" ${isComplete ? 'checked' : ''} onclick="event.stopPropagation(); toggleComplete(${day.day})" title="Mark complete">
+      <span class="day-chevron">\u25bc</span>
+    </div>
+    <div class="day-body">
+      <p class="day-intro">${day.intro}</p>
+      <div class="day-todo">
+        <div class="day-todo-label mono">DO THIS TODAY</div>
+        <ul>${day.doToday.map(t => `<li>${t}</li>`).join('')}</ul>
+      </div>
+      ${renderActivity(day)}
+    </div>
+  </div>`;
+}
+
+function toggleDay(dayNum) {
+  const card = document.getElementById('daycard-' + dayNum);
+  card.classList.toggle('open');
+  if (card.classList.contains('open')) {
+    const day = DAYS.find(d => d.day === dayNum);
+    wireActivityInputs(card.querySelector('.day-body'), day);
+  }
+}
+
+function toggleComplete(dayNum) {
+  const key = 'day' + dayNum;
+  progress[key] = !progress[key];
+  saveProgress(progress);
+  document.getElementById('daycard-' + dayNum).classList.toggle('complete', progress[key]);
+  updateProgressBar();
+}
+
+/* ============ PHASE TABS ============ */
+function renderPhaseTabs() {
+  const tabsEl = document.getElementById('phaseTabs');
+  const panelsEl = document.getElementById('phasePanels');
+  tabsEl.innerHTML = PHASES.map(p => {
+    const count = DAYS.filter(d => d.phase === p.key).length;
+    const doneCount = DAYS.filter(d => d.phase === p.key && progress['day' + d.day]).length;
+    return `<button class="phase-tab-btn" data-phase="${p.key}">${p.label} <span class="phase-tab-count">${doneCount}/${count}</span></button>`;
+  }).join('');
+
+  panelsEl.innerHTML = PHASES.map(p => {
+    const days = DAYS.filter(d => d.phase === p.key);
+    return `<div class="phase-panel" id="phasepanel-${p.key}">
+      <p class="phase-intro">${p.intro}</p>
+      ${days.map(dayCardHTML).join('')}
+    </div>`;
+  }).join('');
+
+  tabsEl.querySelectorAll('.phase-tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const phase = this.dataset.phase;
+      tabsEl.querySelectorAll('.phase-tab-btn').forEach(b => b.classList.toggle('active', b === this));
+      panelsEl.querySelectorAll('.phase-panel').forEach(p => p.classList.toggle('active', p.id === 'phasepanel-' + phase));
+      try { localStorage.setItem('voc_last_phase', phase); } catch (e) {}
+    });
+  });
+}
+
+function refreshPhaseTabCounts() {
+  PHASES.forEach(p => {
+    const count = DAYS.filter(d => d.phase === p.key).length;
+    const doneCount = DAYS.filter(d => d.phase === p.key && progress['day' + d.day]).length;
+    const btn = document.querySelector('.phase-tab-btn[data-phase="' + p.key + '"] .phase-tab-count');
+    if (btn) btn.textContent = doneCount + '/' + count;
+  });
+}
+
+/* ============ INIT ============ */
+renderPhaseTabs();
+updateProgressBar();
+
+// wrap toggleComplete to also refresh tab counts
+const _origToggleComplete = toggleComplete;
+toggleComplete = function(dayNum) {
+  _origToggleComplete(dayNum);
+  refreshPhaseTabCounts();
+};
+
+(function restoreLastPhase() {
+  let phase = 'define';
+  try { phase = localStorage.getItem('voc_last_phase') || 'define'; } catch (e) {}
+  const btn = document.querySelector('.phase-tab-btn[data-phase="' + phase + '"]');
+  if (btn) btn.click();
+})();
+</script>
+
+</body>
+</html>
+
+
+</body>
+</html>
