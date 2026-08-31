@@ -139,9 +139,51 @@ nav.phase-tabs { display: flex; gap: 4px; margin-bottom: 24px; overflow-x: auto;
 .saved-indicator.show { opacity: 1; }
 
 footer.appfooter { border-top: 1px solid var(--line); padding: 20px 24px; text-align: center; font-size: 13px; color: var(--accent); }
+
+/* ---------- email gate ---------- */
+.gate-overlay {
+  position: fixed; inset: 0; background: var(--bg); z-index: 1000;
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+}
+.gate-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 32px 28px; max-width: 380px; width: 100%; text-align: center;
+}
+.gate-card .display { font-size: 32px; margin-bottom: 4px; }
+.gate-card .mono { font-family: var(--font-mono); font-size: 10.5px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 20px; display: block; }
+.gate-card p.gate-desc { font-size: 13.5px; line-height: 1.6; color: var(--ink); margin: 0 0 20px; }
+.gate-input {
+  width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
+  padding: 12px 14px; color: var(--ink); font-family: var(--font-body); font-size: 14px; outline: none;
+  margin-bottom: 12px; text-align: center;
+}
+.gate-input:focus { border-color: var(--amber); }
+.gate-btn {
+  width: 100%; background: var(--amber); border: none; border-radius: 6px;
+  padding: 12px 14px; color: #1C1A17; font-family: var(--font-body); font-weight: 700; font-size: 14px;
+}
+.gate-btn:hover { opacity: 0.9; }
+.gate-error {
+  font-size: 12.5px; color: var(--danger); margin-top: 10px; height: 16px; opacity: 0; transition: opacity 0.2s ease;
+}
+.gate-error.show { opacity: 1; }
+.app-hidden { display: none !important; }
 </style>
 </head>
 <body>
+
+<div class="gate-overlay" id="gateOverlay">
+  <div class="gate-card">
+    <div class="display">VOICE OF THE CLIENT</div>
+    <span class="mono">APPROVED ACCESS ONLY</span>
+    <p class="gate-desc">This workbook is available to approved Career Shifters registrants. Enter the email you registered with.</p>
+    <input type="email" class="gate-input" id="gateEmailInput" placeholder="you@email.com" autocomplete="email">
+    <button class="gate-btn" id="gateSubmitBtn">ENTER WORKBOOK</button>
+    <div class="gate-error" id="gateError">That email isn't on the approved list yet.</div>
+  </div>
+</div>
+
+<div id="appRoot" class="app-hidden">
 
 <header class="topbar">
   <div class="logo-block">
@@ -409,9 +451,54 @@ toggleComplete = function(dayNum) {
 })();
 </script>
 
-</body>
-</html>
+</div>
 
+<script>
+/* ============ EMAIL GATE ============ */
+var APPROVED_EMAILS = [
+  'arleneramos07.agnir@gmail.com'
+];
+
+(function initGate() {
+  var overlay = document.getElementById('gateOverlay');
+  var appRoot = document.getElementById('appRoot');
+  var input = document.getElementById('gateEmailInput');
+  var btn = document.getElementById('gateSubmitBtn');
+  var err = document.getElementById('gateError');
+
+  function normalize(email) {
+    return (email || '').trim().toLowerCase();
+  }
+
+  function grantAccess() {
+    overlay.classList.add('app-hidden');
+    appRoot.classList.remove('app-hidden');
+  }
+
+  function attemptEntry() {
+    var email = normalize(input.value);
+    if (APPROVED_EMAILS.indexOf(email) !== -1) {
+      try { localStorage.setItem('voc_approved_email', email); } catch (e) {}
+      err.classList.remove('show');
+      grantAccess();
+    } else {
+      err.classList.add('show');
+    }
+  }
+
+  btn.addEventListener('click', attemptEntry);
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') attemptEntry();
+  });
+
+  // Auto-unlock returning approved users
+  var remembered = null;
+  try { remembered = localStorage.getItem('voc_approved_email'); } catch (e) {}
+  if (remembered && APPROVED_EMAILS.indexOf(normalize(remembered)) !== -1) {
+    grantAccess();
+  }
+})();
+</script>
 
 </body>
 </html>
